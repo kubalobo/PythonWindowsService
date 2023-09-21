@@ -130,7 +130,7 @@ class KatalogAptek:
         serwer_smtp.quit()
 
 # Funkcje w programie
-def sprawdzam_niewyslane_recepty():
+def sprawdzam_niewyslane_recepty(katalog):
     logowanie_zdarzen(zdarzenie=' - niewyslane recepty sprawdzenie rozpoczete')
     sciezka = katalog.wyswietl_apteki()[0]
     zestawienie_aptek = {}
@@ -216,13 +216,13 @@ def petla_nieskonczona(start, dzien_tygodnia):
 if __name__ == "__main__":
 
     logowanie_zdarzen(zdarzenie=' - uruchomienie programu')
-    katalog = KatalogAptek()
-    katalog.wczytaj_z_pliku('apteki.txt')
+    katalog1 = KatalogAptek()
+    katalog1.wczytaj_z_pliku('apteki.txt')
     parametry_pobrane = wczytaj_parametry('dane.ini')
     # 0 - godzina startu 1 dzień tygodnia
     # petla_nieskonczona(parametry_pobrane[0], parametry_pobrane[1])
     print("123")
-    sprawdzam_niewyslane_recepty()
+    sprawdzam_niewyslane_recepty(katalog1)
     time.sleep(5)
     #
     # while True:
