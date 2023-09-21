@@ -1,0 +1,4 @@
+896768,Moszczenica,z:\Recepty\Moszczenica\Recepty
+861943,Mikina,z:\Recepty\Mikina\Recepty
+590045,Janicka,z:\Recepty\Janicka\Recepty
+994962,Echinacea,z:\Recepty\Rzgowska\Recepty
