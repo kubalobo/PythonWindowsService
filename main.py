@@ -49,7 +49,8 @@ class PythonService4(win32serviceutil.ServiceFramework):
 
             katalog1 = apteki.KatalogAptek()
             katalog1.wczytaj_z_pliku('apteki.txt')
-            apteki.sprawdzam_niewyslane_recepty(katalog1)
+            # Teraz wywołujemy metodę na rzecz obiektu - a nie samodzielną funkcję:
+            katalog1.sprawdzam_niewyslane_recepty()
 
             time.sleep(5)
 

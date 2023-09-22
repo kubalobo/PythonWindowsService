@@ -138,63 +138,64 @@ class KatalogAptek:
         serwer_smtp.quit()
 
 
-# Funkcje w programie
-def sprawdzam_niewyslane_recepty(katalog):
-    logowanie_zdarzen(zdarzenie=" - niewyslane recepty sprawdzenie rozpoczete")
-    sciezka = katalog.wyswietl_apteki()[0]
-    zestawienie_aptek = {}
-    for s in sciezka:
-        sciezka_katalogu = s
-        x = str(katalog.sprawdz_plik(sciezka_katalogu))
-        d1 = {s: x}
-        zestawienie_aptek.update(d1)
-    lp = 0
-    tworz_komunikat = set()
+    # Funkcje w programie -> teraz już metody
+    def sprawdzam_niewyslane_recepty(self):
+        logowanie_zdarzen(zdarzenie=" - niewyslane recepty sprawdzenie rozpoczete")
+        sciezka = self.wyswietl_apteki()[0]
+        zestawienie_aptek = {}
+        for s in sciezka:
+            sciezka_katalogu = s
+            x = str(self.sprawdz_plik(sciezka_katalogu))
+            d1 = {s: x}
+            zestawienie_aptek.update(d1)
+        lp = 0
+        tworz_komunikat = set()
 
-    # Szukam wartosci
-    for klucz, wartosc in zestawienie_aptek.items():
-        z = str(wartosc)
-        y = str("['Brak']")
-        if z == y:
-            lp = lp + 1
-            tworz_komunikat.add(f"Brak przesyłania recept w katalogu: {klucz}")
-    logowanie_zdarzen(zdarzenie=" - niewyslane recepty sprawdzenie zakonczone")
-    katalog.wyslij_email(tworz_komunikat, lp)
-
-
-def kasuje_nadmiarowe_recepty():
-    logowanie_zdarzen(zdarzenie=" - kasuje nadmiarowe recepty rozpoczete")
-    sciezka = katalog.wyswietl_apteki()[0]
-    zestawienie_aptek = {}
-    for s in sciezka:
-        sciezka_katalogu = s
-        x = katalog.kasowanie_starych_plikow(sciezka_katalogu, maksymalny_wiek_dni=100)
-        d1 = {s: x}
-        zestawienie_aptek.update(d1)
-    logowanie_zdarzen(zdarzenie=" - kasuje nadmiarowe recepty zakonczone")
+        # Szukam wartosci
+        for klucz, wartosc in zestawienie_aptek.items():
+            z = str(wartosc)
+            y = str("['Brak']")
+            if z == y:
+                lp = lp + 1
+                tworz_komunikat.add(f"Brak przesyłania recept w katalogu: {klucz}")
+        logowanie_zdarzen(zdarzenie=" - niewyslane recepty sprawdzenie zakonczone")
+        self.wyslij_email(tworz_komunikat, lp)
 
 
-def sprawdzam_wyslane_recepty():
-    logowanie_zdarzen(zdarzenie=" - wyslane recepty sprawdzenie rozpoczete")
-    sciezka = katalog.wyswietl_apteki()[0]
-    zestawienie_aptek = {}
-    for s in sciezka:
-        sciezka_katalogu = s
-        x = str(katalog.sprawdz_plik(sciezka_katalogu))
-        d1 = {s: x}
-        zestawienie_aptek.update(d1)
-    lp = 0
-    tworz_komunikat = set()
-    for klucz, wartosc in zestawienie_aptek.items():
-        z = str(wartosc)
-        y = str("['Brak']")
-        if z != y:
-            lp = lp + 1
-            tworz_komunikat.add(f"Jest OK w katalogu: {klucz}")
-    logowanie_zdarzen(zdarzenie=" - wyslane recepty sprawdzenie zakonczone")
-    katalog.wyslij_email(tworz_komunikat, lp)
+    def kasuje_nadmiarowe_recepty(self):
+        logowanie_zdarzen(zdarzenie=" - kasuje nadmiarowe recepty rozpoczete")
+        sciezka = self.wyswietl_apteki()[0]
+        zestawienie_aptek = {}
+        for s in sciezka:
+            sciezka_katalogu = s
+            x = self.kasowanie_starych_plikow(sciezka_katalogu, maksymalny_wiek_dni=100)
+            d1 = {s: x}
+            zestawienie_aptek.update(d1)
+        logowanie_zdarzen(zdarzenie=" - kasuje nadmiarowe recepty zakonczone")
 
 
+    def sprawdzam_wyslane_recepty(self):
+        logowanie_zdarzen(zdarzenie=" - wyslane recepty sprawdzenie rozpoczete")
+        sciezka = self.wyswietl_apteki()[0]
+        zestawienie_aptek = {}
+        for s in sciezka:
+            sciezka_katalogu = s
+            x = str(self.sprawdz_plik(sciezka_katalogu))
+            d1 = {s: x}
+            zestawienie_aptek.update(d1)
+        lp = 0
+        tworz_komunikat = set()
+        for klucz, wartosc in zestawienie_aptek.items():
+            z = str(wartosc)
+            y = str("['Brak']")
+            if z != y:
+                lp = lp + 1
+                tworz_komunikat.add(f"Jest OK w katalogu: {klucz}")
+        logowanie_zdarzen(zdarzenie=" - wyslane recepty sprawdzenie zakonczone")
+        self.wyslij_email(tworz_komunikat, lp)
+
+
+# Funkcje poniżej nie mają bezpośredniego związku z katalogiem (mogą działać bez niego), więc zostawiam je jako funkcje 
 def logowanie_zdarzen(zdarzenie):
     with open("wynik_do_wyslania.log", "a") as logi:
         teraz = datetime.datetime.now()
@@ -237,7 +238,9 @@ if __name__ == "__main__":
     # 0 - godzina startu 1 dzień tygodnia
     # petla_nieskonczona(parametry_pobrane[0], parametry_pobrane[1])
     print("123")
-    sprawdzam_niewyslane_recepty(katalog1)
+
+    # Teraz wywołujemy metodę na rzecz obiektu - a nie samodzielną funkcję:
+    katalog1.sprawdzam_niewyslane_recepty()
     time.sleep(5)
     #
     # while True:
